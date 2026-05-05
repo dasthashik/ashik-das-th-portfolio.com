@@ -23,12 +23,18 @@ if (typeof window === 'undefined') {
     (() => {
         if (window.crossOriginIsolated) return;
 
-        // URL-based loop protection (more reliable for mobile)
+        // Strict URL-based loop protection (works best on mobile)
         const url = new URL(window.location.href);
-        if (url.searchParams.has('coi-ok')) return;
+        if (url.searchParams.has('coi-ok')) {
+            console.warn("COI: Security headers failed to activate, but stopping reload to prevent loop.");
+            return;
+        }
 
         if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register(window.document.currentScript.src).then((registration) => {
+            // Get the base path for the service worker
+            const scriptSrc = document.currentScript ? document.currentScript.src : "coi-serviceworker.js";
+
+            navigator.serviceWorker.register(scriptSrc).then((registration) => {
                 const reload = () => {
                     url.searchParams.set('coi-ok', '1');
                     window.location.replace(url.href);
