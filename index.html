@@ -9,20 +9,18 @@
 
     <script src="coi-serviceworker.js"></script>
 
-    <!-- OPEN GRAPH META TAGS FOR LINK PREVIEWS -->
-    <meta property="og:title" content="Ashik Das T.H | Flutter Developer Portfolio">
-    <meta property="og:description" content="Professional Flutter Developer showcasing innovative mobile and web applications with modern UI/UX design">
-    <meta property="og:image" content="https://ashik-das-th-portfolio.com/assets/images/primg.jpeg">
-    <meta property="og:url" content="https://ashik-das-th-portfolio.com">
+    <!-- OPEN GRAPH META TAGS FOR LINK PREVIEWS (WhatsApp, LinkedIn, etc.) -->
+    <meta property="og:title" content="Ashik Das T.H | Portfolio">
+    <meta property="og:description" content="Flutter Developer Portfolio - Showcasing mobile and web projects.">
+    <meta property="og:image" content="https://dasthashik.github.io/ashik-das-th-portfolio.com/primg.jpeg">
+    <meta property="og:url" content="https://dasthashik.github.io/ashik-das-th-portfolio.com/">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Ashik Das Portfolio">
-    
+
     <!-- TWITTER CARD META TAGS -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ashik Das T.H | Flutter Developer">
-    <meta name="twitter:description" content="Professional Flutter Developer showcasing innovative mobile and web applications">
-    <meta name="twitter:image" content="https://ashik-das-th-portfolio.com/assets/images/primg.jpeg">
-    <meta name="twitter:creator" content="@ashik_das_th">
+    <meta name="twitter:title" content="Ashik Das T.H | Portfolio">
+    <meta name="twitter:description" content="Flutter Developer Portfolio - Showcasing mobile and web projects.">
+    <meta name="twitter:image" content="https://dasthashik.github.io/ashik-das-th-portfolio.com/primg.jpeg">
     
     <!-- ADDITIONAL SEO META TAGS -->
     <meta name="keywords" content="Flutter developer, mobile app development, web development, portfolio, UI/UX design, Dart programming">
@@ -31,10 +29,6 @@
 
     <!-- PRELOAD KEY ASSETS -->
     <link rel="preload" href="primg.jpeg" as="image" fetchpriority="high">
-    <link rel="preload" href="assets/assets/images/smartlife.png" as="image">
-    <link rel="preload" href="assets/assets/images/what_to_cook.png" as="image">
-    <link rel="preload" href="assets/assets/images/whats.png" as="image">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -108,7 +102,6 @@
             window._flutter.loader.load({
                 onEntrypointLoaded: function(engineInitializer) {
                     engineInitializer.initializeEngine({
-                        // WASM: Best performance for animations and mobile
                         renderer: "wasm",
                         useColorEmoji: true
                     }).then(function(appRunner) {

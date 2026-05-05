@@ -24,15 +24,23 @@ if (typeof window === 'undefined') {
                     headers: newHeaders,
                 });
             }).catch(e => {
-                console.error("COI Fetch Error:", e);
                 return fetch(event.request);
             })
         );
     });
 } else {
     (() => {
-        // Optimization: Don't register if we are already isolated
+        // If already isolated, we're done.
         if (window.crossOriginIsolated) return;
+
+        // Loop protection for mobile browsers
+        const COI_RELOAD_KEY = 'coi_reload_count';
+        const reloadCount = parseInt(sessionStorage.getItem(COI_RELOAD_KEY) || '0');
+
+        if (reloadCount > 3) {
+            console.error("COI: Too many reloads. Browser might not support WASM headers.");
+            return;
+        }
 
         const script = document.currentScript;
         const src = script ? script.src : "coi-serviceworker.js";
@@ -43,17 +51,16 @@ if (typeof window === 'undefined') {
                     const newValue = registration.installing;
                     newValue.addEventListener("statechange", () => {
                         if (newValue.state === "activated") {
+                            sessionStorage.setItem(COI_RELOAD_KEY, (reloadCount + 1).toString());
                             window.location.reload();
                         }
                     });
                 });
 
-                // Loop protection: If already active but not isolated, reload only once
+                // Check if active but not isolated
                 if (registration.active && !window.crossOriginIsolated) {
-                    if (!window.sessionStorage.getItem('coi_reloaded')) {
-                        window.sessionStorage.setItem('coi_reloaded', 'true');
-                        window.location.reload();
-                    }
+                    sessionStorage.setItem(COI_RELOAD_KEY, (reloadCount + 1).toString());
+                    window.location.reload();
                 }
             });
         }
