@@ -23,13 +23,20 @@ if (typeof window === 'undefined') {
                     statusText: response.statusText,
                     headers: newHeaders,
                 });
+            }).catch(e => {
+                console.error("COI Fetch Error:", e);
+                return fetch(event.request);
             })
         );
     });
 } else {
     (() => {
+        // Optimization: Don't register if we are already isolated
+        if (window.crossOriginIsolated) return;
+
         const script = document.currentScript;
         const src = script ? script.src : "coi-serviceworker.js";
+
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register(src).then((registration) => {
                 registration.addEventListener("updatefound", () => {
@@ -40,6 +47,14 @@ if (typeof window === 'undefined') {
                         }
                     });
                 });
+
+                // Loop protection: If already active but not isolated, reload only once
+                if (registration.active && !window.crossOriginIsolated) {
+                    if (!window.sessionStorage.getItem('coi_reloaded')) {
+                        window.sessionStorage.setItem('coi_reloaded', 'true');
+                        window.location.reload();
+                    }
+                }
             });
         }
     })();
