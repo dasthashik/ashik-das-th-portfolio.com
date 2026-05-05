@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Ashik Das T.H | Portfolio - Flutter Developer">
+
+    <!-- OPEN GRAPH META TAGS FOR LINK PREVIEWS -->
+    <meta property="og:title" content="Ashik Das T.H | Flutter Developer Portfolio">
+    <meta property="og:description" content="Professional Flutter Developer showcasing innovative mobile and web applications with modern UI/UX design">
+    <meta property="og:image" content="https://ashik-das-th-portfolio.com/assets/images/primg.jpeg">
+    <meta property="og:url" content="https://ashik-das-th-portfolio.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Ashik Das Portfolio">
+    
+    <!-- TWITTER CARD META TAGS -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ashik Das T.H | Flutter Developer">
+    <meta name="twitter:description" content="Professional Flutter Developer showcasing innovative mobile and web applications">
+    <meta name="twitter:image" content="https://ashik-das-th-portfolio.com/assets/images/primg.jpeg">
+    <meta name="twitter:creator" content="@ashik_das_th">
+    
+    <!-- ADDITIONAL SEO META TAGS -->
+    <meta name="keywords" content="Flutter developer, mobile app development, web development, portfolio, UI/UX design, Dart programming">
+    <meta name="author" content="Ashik Das T.H">
+    <meta name="robots" content="index, follow">
+
+    <!-- PRELOAD KEY ASSETS -->
+    <link rel="preload" href="primg.jpeg" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/assets/images/smartlife.png" as="image">
+    <link rel="preload" href="assets/assets/images/what_to_cook.png" as="image">
+    <link rel="preload" href="assets/assets/images/whats.png" as="image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Ashik Das T.H | Portfolio</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        body {
+          background-color: #081b29;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          font-family: 'Poppins', sans-serif;
+          touch-action: none;
+        }
+
+        .loader-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 300px;
+          text-align: center;
+        }
+
+        .profile-splash {
+          width: 140px;
+          height: 140px;
+          border-radius: 50%;
+          border: 4px solid #00EEFF;
+          margin-bottom: 30px;
+          object-fit: cover;
+          box-shadow: 0 0 40px rgba(0, 238, 255, 0.4);
+          animation: profilePop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+          background-color: #081b29;
+        }
+
+        @keyframes profilePop {
+          0% { opacity: 0; transform: scale(0.7); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+
+        .loading-text {
+          margin-top: 25px;
+          color: #00EEFF;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 7px;
+          text-transform: uppercase;
+          opacity: 0.9;
+          animation: blink 2s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+<div class="loader-container" id="splash">
+    <img src="primg.jpeg" class="profile-splash" alt="Ashik Das T.H" onerror="this.style.display='none'">
+    <div class="loading-text">Loading Portfolio...</div>
+</div>
+
+<script src="flutter_bootstrap.js" async></script>
+
+<script>
+    window.addEventListener('load', function() {
+        if (window._flutter && window._flutter.loader) {
+            window._flutter.loader.load({
+                onEntrypointLoaded: function(engineInitializer) {
+                    engineInitializer.initializeEngine({
+                        // WASM: Best performance for animations and mobile
+                        renderer: "wasm",
+                        useColorEmoji: true
+                    }).then(function(appRunner) {
+                        appRunner.runApp();
+                    });
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
