@@ -14,7 +14,7 @@
     <meta name="title" content="Ashik Das T.H | Portfolio">
     <meta name="description" content="Flutter Developer Portfolio - Showcasing mobile and web projects.">
 
-    <!-- OPEN GRAPH META TAGS FOR LINK PREVIEWS (WhatsApp, LinkedIn, etc.) -->
+    <!-- OPEN GRAPH META TAGS FOR LINK PREVIEWS -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dasthashik.github.io/ashik-das-th-portfolio.com/">
     <meta property="og:title" content="Ashik Das T.H | Portfolio">
@@ -32,12 +32,6 @@
     <meta name="twitter:description" content="Flutter Developer Portfolio - Showcasing mobile and web projects.">
     <meta name="twitter:image" content="https://dasthashik.github.io/ashik-das-th-portfolio.com/primg.jpeg">
     
-    <!-- ADDITIONAL SEO META TAGS -->
-    <meta name="keywords" content="Flutter developer, mobile app development, web development, portfolio, UI/UX design, Dart programming">
-    <meta name="author" content="Ashik Das T.H">
-    <meta name="robots" content="index, follow">
-
-    <!-- PRELOAD KEY ASSETS -->
     <link rel="preload" href="primg.jpeg" as="image" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +54,7 @@
         }
 
         .loader-container {
-          display: flex;
+          display: none; /* Hide by default to prevent "double splash" flicker */
           flex-direction: column;
           align-items: center;
           width: 300px;
@@ -107,20 +101,31 @@
 <script src="flutter_bootstrap.js" async></script>
 
 <script>
-    window.addEventListener('load', function() {
-        if (window._flutter && window._flutter.loader) {
-            window._flutter.loader.load({
-                onEntrypointLoaded: function(engineInitializer) {
-                    engineInitializer.initializeEngine({
-                        renderer: "wasm",
-                        useColorEmoji: true
-                    }).then(function(appRunner) {
-                        appRunner.runApp();
+    (function() {
+        const url = new URL(window.location.href);
+        const isIsolated = window.crossOriginIsolated;
+        const hasCoiOk = url.searchParams.has('coi-ok');
+
+        // Only show splash and start Flutter if we are isolated or have already reloaded
+        if (isIsolated || hasCoiOk) {
+            document.getElementById('splash').style.display = 'flex';
+
+            window.addEventListener('load', function() {
+                if (window._flutter && window._flutter.loader) {
+                    window._flutter.loader.load({
+                        onEntrypointLoaded: function(engineInitializer) {
+                            engineInitializer.initializeEngine({
+                                renderer: "wasm",
+                                useColorEmoji: true
+                            }).then(function(appRunner) {
+                                appRunner.runApp();
+                            });
+                        }
                     });
                 }
             });
         }
-    });
+    })();
 </script>
 </body>
 </html>
