@@ -2,7 +2,6 @@
 if (typeof window === 'undefined') {
     self.addEventListener("install", () => self.skipWaiting());
     self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
-
     self.addEventListener("fetch", (event) => {
         if (event.request.cache === "only-if-cached" && event.request.mode !== "same-origin") return;
         event.respondWith(
@@ -22,28 +21,16 @@ if (typeof window === 'undefined') {
 } else {
     (() => {
         if (window.crossOriginIsolated) return;
-
-        // Strict URL-based loop protection (works best on mobile)
         const url = new URL(window.location.href);
-        if (url.searchParams.has('coi-ok')) {
-            console.warn("COI: Security headers failed to activate, but stopping reload to prevent loop.");
-            return;
-        }
+        if (url.searchParams.has('coi-ok')) return; // Loop breaker
 
         if ("serviceWorker" in navigator) {
-            // Get the base path for the service worker
-            const scriptSrc = document.currentScript ? document.currentScript.src : "coi-serviceworker.js";
-
-            navigator.serviceWorker.register(scriptSrc).then((registration) => {
+            navigator.serviceWorker.register(window.document.currentScript.src).then((registration) => {
                 const reload = () => {
                     url.searchParams.set('coi-ok', '1');
                     window.location.replace(url.href);
                 };
-
-                if (registration.active && !navigator.serviceWorker.controller) {
-                    reload();
-                }
-
+                if (registration.active && !navigator.serviceWorker.controller) reload();
                 registration.addEventListener("updatefound", () => {
                     const newValue = registration.installing;
                     newValue.addEventListener("statechange", () => {
